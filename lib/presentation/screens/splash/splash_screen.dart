@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 10), () {
+    Timer(const Duration(seconds:  2), () {
       if (mounted) {
         Navigator.of(context)
             .pushReplacementNamed(OnboardingScreen.routeName);
@@ -33,22 +33,24 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-
-            Expanded(child: Center(child: Image.asset("assets/images/movie_logo.png"))),
-        
-             Image.asset("assets/images/img_1.png",height: 76.h,width: 180.w,),
-            SizedBox(),
-        
-            Text(
-              'Supervised by Mohamed Helal',
-              style:  TextStyle(fontSize: 16.r,fontWeight:FontWeight.w400,color: AppColors.textSecondary
-              )
-            ),
-          ],
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+          
+          
+              Expanded(child: Center(child: Image.asset("assets/images/movie_logo.png"))),
+          
+               Image.asset("assets/images/img_1.png",height: 76.h,width: 180.w,),
+              SizedBox(),
+          
+              Text(
+                'Supervised by Mohamed Helal',
+                style:  TextStyle(fontSize: 16.r,fontWeight:FontWeight.w400,color: AppColors.textSecondary
+                )
+              ),
+            ],
+          ),
         ),
       ),
     );

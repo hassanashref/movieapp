@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/app_colors.dart';
-
 class AvatarSelector extends StatefulWidget {
   final ValueChanged<String>? onAvatarSelected;
   final String? selectedAvatar;
@@ -27,98 +25,6 @@ class AvatarSelector extends StatefulWidget {
     this.initialIndex = 1,
   });
 
-  static Future<void> showAvatarBottomSheet(
-    BuildContext context, {
-    required String currentAvatar,
-    required ValueChanged<String> onSelected,
-  }) {
-    return showModalBottomSheet(
-      context: context,
-      backgroundColor: const Color(0xFF1E1E1E),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40.w,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: Colors.white24,
-                  borderRadius: BorderRadius.circular(2.r),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              Text(
-                "Choose Your Avatar",
-                style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: avatarsList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 16.w,
-                  mainAxisSpacing: 16.h,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (context, index) {
-                  final avatarPath = avatarsList[index];
-                  final isSelected = avatarPath == currentAvatar;
-                  return GestureDetector(
-                    onTap: () {
-                      onSelected(avatarPath);
-                      Navigator.pop(context);
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 250),
-                      padding: EdgeInsets.all(isSelected ? 4.r : 2.r),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: isSelected
-                              ? AppColors.primary
-                              : Colors.transparent,
-                          width: isSelected ? 3 : 1,
-                        ),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  color: AppColors.primary.withOpacity(0.4),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                )
-                              ]
-                            : null,
-                      ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          avatarPath,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 16.h),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   State<AvatarSelector> createState() => _AvatarSelectorState();
 }
@@ -137,7 +43,7 @@ class _AvatarSelectorState extends State<AvatarSelector> {
       _selectedIndex = widget.initialIndex;
     }
     _pageController = PageController(
-      viewportFraction: 0.35,
+      viewportFraction: 0.38,
       initialPage: _selectedIndex,
     );
   }
@@ -186,70 +92,49 @@ class _AvatarSelectorState extends State<AvatarSelector> {
           return AnimatedBuilder(
             animation: _pageController,
             builder: (context, child) {
-              double value = 1.0;
+              double value = 0.0;
               if (_pageController.position.haveDimensions) {
-                value = (_pageController.page ?? _selectedIndex.toDouble()) -
-                    index;
-                value = (1 - (value.abs() * 0.3)).clamp(0.72, 1.0);
+                value = (_pageController.page ?? _selectedIndex.toDouble()) - index;
               } else {
-                value = index == _selectedIndex ? 1.0 : 0.72;
+                value = (_selectedIndex - index).toDouble();
               }
 
-              final isCurrent = index == _selectedIndex;
+              // Scale: Center is 1.0, sides are ~0.65
+              final double scale = (1 - (value.abs() * 0.35)).clamp(0.65, 1.0);
 
               return Center(
-                child: SizedBox(
-                  height: Curves.easeOut.transform(value) * 140.h,
-                  width: Curves.easeOut.transform(value) * 140.w,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isCurrent && value > 0.95
-                            ? AppColors.primary
-                            : Colors.transparent,
-                        width: 2.5,
+                child: Transform.scale(
+                  scale: scale,
+                  child: GestureDetector(
+                    onTap: () {
+                      _pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                      widget.onAvatarSelected?.call(AvatarSelector.avatarsList[index]);
+                    },
+                    child: Container(
+                      width: 130.w,
+                      height: 130.h,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
                       ),
-                      boxShadow: isCurrent && value > 0.95
-                          ? [
-                              BoxShadow(
-                                color: AppColors.primary.withOpacity(0.35),
-                                blurRadius: 12,
-                                spreadRadius: 2,
-                              ),
-                            ]
-                          : null,
+                      child: ClipOval(
+                        child: Image.asset(
+                          AvatarSelector.avatarsList[index],
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                    child: child,
                   ),
                 ),
               );
             },
-            child: GestureDetector(
-              onTap: () {
-                _pageController.animateToPage(
-                  index,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                );
-                widget.onAvatarSelected?.call(AvatarSelector.avatarsList[index]);
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 6.w),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    AvatarSelector.avatarsList[index],
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
           );
         },
       ),
     );
   }
 }
+

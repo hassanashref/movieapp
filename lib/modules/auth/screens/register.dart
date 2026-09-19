@@ -78,41 +78,12 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 10.h),
 
                        Center(
-                        child: InkWell(
-                          onTap: () {
-                            AvatarSelector.showAvatarBottomSheet(
-                              context,
-                              currentAvatar: provider.selectedAvatar,
-                              onSelected: (avatar) {
-                                provider.updateAvatar(avatar);
-                              },
-                            );
-                          },
-                          borderRadius: BorderRadius.circular(20.r),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                              vertical: 4.h,
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "Avatar",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16.sp,
-                                  ),
-                                ),
-                                SizedBox(width: 6.w),
-                                Icon(
-                                  Icons.edit,
-                                  color: AppColors.primary,
-                                  size: 16.sp,
-                                ),
-                              ],
-                            ),
+                        child: Text(
+                          "Avatar",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
                           ),
                         ),
                       ),
