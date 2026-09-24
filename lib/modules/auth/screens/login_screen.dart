@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:movieapp/core/app_colors.dart';
-import 'package:movieapp/core/routes/app_route_name.dart';
+ import 'package:movieapp/core/routes/app_route_name.dart';
+import 'package:movieapp/core/theme/app_colors.dart';
 import 'package:movieapp/core/widgets/custom_btn.dart';
 import 'package:provider/provider.dart';
 

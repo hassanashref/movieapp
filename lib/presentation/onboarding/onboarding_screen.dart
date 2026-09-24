@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/routes/app_route_name.dart';
 
-import '../../core/app_colors.dart';
-import '../../modules/auth/screens/login_screen.dart';
+import '../../core/theme/app_colors.dart';
 import '../../utils/responsive.dart';
 import 'widgets/onboarding_page.dart';
 import 'onboarding_data.dart';

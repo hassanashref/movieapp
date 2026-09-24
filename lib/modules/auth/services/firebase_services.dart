@@ -141,8 +141,7 @@ class FirebaseServices {
         serverClientId:
             '132729081953-qjgpohgag452fj9gknk7bn14b8pn5lb3.apps.googleusercontent.com',
       );
-      final GoogleSignInAccount? result = await _googleSignIn.authenticate();
-      if (result == null) return null;
+      final result = await _googleSignIn.authenticate();
       final googleAuth = result.authentication;
       final credentials = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
@@ -169,6 +168,17 @@ class FirebaseServices {
       rethrow;
     }
   }
+
+   static User? get currentUser => _auth.currentUser;
+
+   static bool get isUserLoggedIn => _auth.currentUser != null;
+
+   static Future<void> signOut() async {
+     await _auth.signOut();
+     try {
+       await _googleSignIn.signOut();
+     } catch (_) {}
+   }
 
    static Future<UserCredential?> sinInWhithGoogle() => signInWithGoogle();
 }
