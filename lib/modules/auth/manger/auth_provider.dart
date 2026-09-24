@@ -11,7 +11,8 @@ class AuthProvider extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   String selectedAvatar = 'assets/images/gamer (2).png';
   bool _isLoading = false;
@@ -48,10 +49,7 @@ class AuthProvider extends ChangeNotifier {
 
       credential?.user?.sendEmailVerification().catchError((_) {});
 
-      Toast.show(
-        title: "Welcome, $enteredName!",
-        type: ToastType.success,
-      );
+      Toast.show(title: "Welcome, $enteredName!", type: ToastType.success);
 
       nameController.clear();
       emailController.clear();
@@ -59,10 +57,7 @@ class AuthProvider extends ChangeNotifier {
       confirmPasswordController.clear();
 
       if (context != null && context.mounted) {
-        Navigator.pushReplacementNamed(
-          context,
-          AppRouteName.loginScreen,
-        );
+        Navigator.pushReplacementNamed(context, AppRouteName.loginScreen);
       } else if (navigatorKey.currentState != null) {
         navigatorKey.currentState!.pushReplacementNamed(
           AppRouteName.loginScreen,
@@ -85,6 +80,8 @@ class AuthProvider extends ChangeNotifier {
 
       if (credential?.user != null) {
         if (credential!.user!.emailVerified) {
+          navigatorKey.currentState?.pushReplacementNamed(AppRouteName.  homeScreen2);
+
           currentUser = await FirebaseServices.getUser(credential.user!.uid);
           final displayName =
               currentUser?.name ?? credential.user!.displayName ?? 'User';
@@ -116,9 +113,7 @@ class AuthProvider extends ChangeNotifier {
     }
 
     try {
-      await FirebaseServices.resetPassword(
-        email: emailController.text.trim(),
-      );
+      await FirebaseServices.resetPassword(email: emailController.text.trim());
       Toast.show(
         title: "Password reset link sent! Check your inbox.",
         type: ToastType.success,
@@ -135,13 +130,11 @@ class AuthProvider extends ChangeNotifier {
     try {
       final credential = await FirebaseServices.signInWithGoogle();
       if (credential?.user != null) {
+        navigatorKey.currentState?.pushReplacementNamed(AppRouteName.homeScreen2);
         currentUser = await FirebaseServices.getUser(credential!.user!.uid);
         final displayName =
             currentUser?.name ?? credential.user!.displayName ?? 'User';
-        Toast.show(
-          title: "Welcome, $displayName!",
-          type: ToastType.success,
-        );
+        Toast.show(title: "Welcome, $displayName!", type: ToastType.success);
       }
     } catch (e) {
       Toast.show(title: e.toString(), type: ToastType.error);

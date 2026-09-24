@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
    import 'package:provider/provider.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/routes/app_route_name.dart';
 import '../../../core/widgets/custom_btn.dart';
 import '../manger/auth_provider.dart';
