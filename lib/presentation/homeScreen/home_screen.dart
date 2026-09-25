@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             final s = w / 375;
 
             final currentSelectedMovie = (topMovies.isNotEmpty &&
-                    selectedMovieIndex < topMovies.length)
+                selectedMovieIndex < topMovies.length)
                 ? topMovies[selectedMovieIndex]
                 : (topMovies.isNotEmpty ? topMovies[0] : null);
 
@@ -122,29 +122,29 @@ class _HomePageState extends State<HomePage> {
                           child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             child: currentBgUrl != null &&
-                                    currentBgUrl.isNotEmpty
+                                currentBgUrl.isNotEmpty
                                 ? Image.network(
-                                    currentBgUrl,
-                                    key: ValueKey<String>(currentBgUrl),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Image.asset(
-                                      'assets/images/movie6.png',
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                    ),
-                                  )
-                                : Image.asset(
+                              currentBgUrl,
+                              key: ValueKey<String>(currentBgUrl),
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                              errorBuilder:
+                                  (context, error, stackTrace) =>
+                                  Image.asset(
                                     'assets/images/movie6.png',
-                                    key: const ValueKey<String>('default_bg'),
                                     fit: BoxFit.cover,
                                     width: double.infinity,
                                     height: double.infinity,
                                   ),
+                            )
+                                : Image.asset(
+                              'assets/images/movie6.png',
+                              key: const ValueKey<String>('default_bg'),
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
                           ),
                         ),
                         // Dark Gradient Overlay for rich contrast
@@ -293,33 +293,33 @@ class _HomePageState extends State<HomePage> {
                           height: 160 * s,
                           child: actionMovies.isEmpty
                               ? Center(
-                                  child: provider.isLoading
-                                      ? const CircularProgressIndicator(
-                                          color: Color(0xffffcf00),
-                                        )
-                                      : const Text(
-                                          'No action movies found',
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                          ),
-                                        ),
-                                )
+                            child: provider.isLoading
+                                ? const CircularProgressIndicator(
+                              color: Color(0xffffcf00),
+                            )
+                                : const Text(
+                              'No action movies found',
+                              style: TextStyle(
+                                color: Colors.white70,
+                              ),
+                            ),
+                          )
                               : ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: actionMovies.length,
-                                  separatorBuilder: (context, index) =>
-                                      SizedBox(width: 10 * s),
-                                  itemBuilder: (context, index) {
-                                    return _watchPoster(
-                                      movie: actionMovies[index],
-                                      width: 105 * s,
-                                      height: 152 * s,
-                                      radius: 10 * s,
-                                      index: index,
-                                    );
-                                  },
-                                ),
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: actionMovies.length,
+                            separatorBuilder: (context, index) =>
+                                SizedBox(width: 10 * s),
+                            itemBuilder: (context, index) {
+                              return _watchPoster(
+                                movie: actionMovies[index],
+                                width: 105 * s,
+                                height: 152 * s,
+                                radius: 10 * s,
+                                index: index,
+                              );
+                            },
+                          ),
                         ),
                         SizedBox(height: 16 * s),
                         // Bottom Navigation Bar
@@ -394,13 +394,13 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(radius),
               child: imageUrl != null && imageUrl.isNotEmpty
                   ? Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Image.asset(
-                        'assets/images/movie6.png',
-                        fit: BoxFit.cover,
-                      ),
-                    )
+                imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  'assets/images/movie6.png',
+                  fit: BoxFit.cover,
+                ),
+              )
                   : Image.asset('assets/images/movie6.png', fit: BoxFit.cover),
             ),
           ),
@@ -473,14 +473,14 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(radius),
                 child: imageUrl != null && imageUrl.isNotEmpty
                     ? Image.network(
-                        imageUrl,
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Image.asset(
+                        'assets/images/movie6.png',
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Image.asset(
-                          'assets/images/movie6.png',
-                          fit: BoxFit.cover,
-                        ),
-                      )
+                      ),
+                )
                     : Image.asset('assets/images/movie6.png', fit: BoxFit.cover),
               ),
             ),
