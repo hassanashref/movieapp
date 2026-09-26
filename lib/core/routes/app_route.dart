@@ -10,15 +10,14 @@ import 'package:movieapp/presentation/screens/splash/splash_screen.dart';
 
 class AppRoute {
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
+    ;
     switch (setting.name) {
       case AppRouteName.loginScreen:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case AppRouteName.register:
         return MaterialPageRoute(builder: (context) => const Register());
       case AppRouteName.forgetpassword:
-         return MaterialPageRoute(
-          builder: (context) => const ForgetPassword(),
-        );
+        return MaterialPageRoute(builder: (context) => const ForgetPassword());
       case AppRouteName.onboardingScreen:
         return MaterialPageRoute(
           builder: (context) => const OnboardingScreen(),
@@ -26,8 +25,7 @@ class AppRoute {
       case AppRouteName.splashScreen:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case AppRouteName.homeScreen2:
-      case AppRouteName.layoutScreen:
-      case HomePage.routeName:
+       case HomePage.routeName:
         return MaterialPageRoute(builder: (context) => const LayoutScreen());
 
       default:

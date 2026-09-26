@@ -6,5 +6,4 @@ class AppRouteName {
   static const String onboardingScreen = "/OnboardingScreen";
   static const String splashScreen = "/";
   static const String homeScreen2 = "/homeScreen2";
-  static const String layoutScreen = "/layoutScreen";
-}
+ }
