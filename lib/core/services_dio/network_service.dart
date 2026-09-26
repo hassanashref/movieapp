@@ -59,8 +59,7 @@ class NetworkService {
     );
   }
 
-  /// Generic GET request
-  static Future<Response> get({
+   static Future<Response> get({
     required String endPoint,
     Map<String, dynamic>? queryParameters,
     Options? options,

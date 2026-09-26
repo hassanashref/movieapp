@@ -74,8 +74,7 @@ class ApiManager {
     }
   }
 
-  /// Search movies with query term and pagination
-  static Future<List<Movies>> searchMovies({
+   static Future<List<Movies>> searchMovies({
     required String query,
     int limit = 20,
     int page = 1,
