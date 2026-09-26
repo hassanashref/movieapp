@@ -80,11 +80,17 @@ class AuthProvider extends ChangeNotifier {
 
       if (credential?.user != null) {
         if (credential!.user!.emailVerified) {
-          navigatorKey.currentState?.pushReplacementNamed(AppRouteName.  homeScreen2);
+          navigatorKey.currentState
+              ?.pushReplacementNamed(AppRouteName.homeScreen2);
 
-          currentUser = await FirebaseServices.getUser(credential.user!.uid);
-          final displayName =
-              currentUser?.name ?? credential.user!.displayName ?? 'User';
+          try {
+            currentUser = await FirebaseServices.getUser(credential.user!.uid);
+          } catch (_) {}
+
+          final displayName = currentUser?.name ??
+              credential.user!.displayName ??
+              credential.user!.email?.split('@').first ??
+              'User';
           Toast.show(
             title: "Welcome back, $displayName!",
             type: ToastType.success,
@@ -103,37 +109,60 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> resetPassword() async {
-    if (emailController.text.trim().isEmpty) {
+  Future<bool> resetPassword({BuildContext? context}) async {
+    final String email = emailController.text.trim();
+    if (email.isEmpty) {
       Toast.show(
         title: "Please enter your email address.",
         type: ToastType.error,
       );
-      return;
+      return false;
     }
 
+    _setLoading(true);
     try {
-      await FirebaseServices.resetPassword(email: emailController.text.trim());
+      await FirebaseServices.resetPassword(email: email);
       Toast.show(
-        title: "Password reset link sent! Check your inbox.",
+        title: "Password reset link sent to $email! Check your inbox.",
         type: ToastType.success,
       );
+      emailController.clear();
+
+      if (context != null && context.mounted) {
+        Future.delayed(const Duration(seconds: 2), () {
+          if (context.mounted) {
+            Navigator.pushReplacementNamed(context, AppRouteName.loginScreen);
+          }
+        });
+      }
+      return true;
     } catch (e) {
       Toast.show(title: e.toString(), type: ToastType.error);
+      return false;
     } finally {
       _setLoading(false);
     }
   }
+
+  Future<void> forgetPassword({BuildContext? context}) =>
+      resetPassword(context: context);
+  Future<void> ForgetPassword({BuildContext? context}) =>
+      resetPassword(context: context);
 
   Future<void> signInWithGoogle() async {
     _setLoading(true);
     try {
       final credential = await FirebaseServices.signInWithGoogle();
       if (credential?.user != null) {
-        navigatorKey.currentState?.pushReplacementNamed(AppRouteName.homeScreen2);
-        currentUser = await FirebaseServices.getUser(credential!.user!.uid);
-        final displayName =
-            currentUser?.name ?? credential.user!.displayName ?? 'User';
+        navigatorKey.currentState
+            ?.pushReplacementNamed(AppRouteName.homeScreen2);
+        try {
+          currentUser = await FirebaseServices.getUser(credential!.user!.uid);
+        } catch (_) {}
+        final displayName = currentUser?.name ??
+            credential?.user?.displayName ??
+            credential?.user?.email?.split('@').first ??
+            'User';
         Toast.show(title: "Welcome, $displayName!", type: ToastType.success);
       }
     } catch (e) {

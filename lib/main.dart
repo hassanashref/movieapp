@@ -9,6 +9,8 @@ import 'core/routes/app_route.dart';
 import 'core/services_dio/network_service.dart';
 import 'firebase_options.dart';
 
+import 'package:movieapp/presentation/search/search_provider.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
@@ -33,8 +35,15 @@ class MovieAuthApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return ChangeNotifierProvider(
-          create: (_) => HomeProvider()..getHomeMovies(),
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => HomeProvider()..getHomeMovies(),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => SearchProvider(),
+            ),
+          ],
           child: MaterialApp(
             navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,

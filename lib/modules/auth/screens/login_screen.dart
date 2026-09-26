@@ -167,9 +167,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: AlignmentDirectional.centerEnd,
                           child: InkWell(
                             onTap: () {
-                              Navigator.pushReplacementNamed(
+                              Navigator.pushNamed(
                                 context,
-                                AppRouteName.forgetpassword,
+                                AppRouteName. forgetpassword,
                               );
                             },
                             child: const Text(

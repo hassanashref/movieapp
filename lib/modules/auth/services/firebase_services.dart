@@ -16,12 +16,24 @@ class FirebaseServices {
   }
 
   static Future<void> saveUser(UserModel user) async {
-    await getUsersCollection().doc(user.uid).set(user);
+    try {
+      await getUsersCollection()
+          .doc(user.uid)
+          .set(user)
+          .timeout(const Duration(seconds: 4));
+    } catch (_) {}
   }
 
   static Future<UserModel?> getUser(String uid) async {
-    final doc = await getUsersCollection().doc(uid).get();
-    return doc.data();
+    try {
+      final doc = await getUsersCollection()
+          .doc(uid)
+          .get()
+          .timeout(const Duration(seconds: 4));
+      return doc.data();
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<UserCredential?> createAccount({
@@ -122,9 +134,11 @@ class FirebaseServices {
       await _auth.sendPasswordResetEmail(email: email.trim());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        throw 'No user found for that email.';
+        throw 'No user found with this email address.';
       } else if (e.code == 'invalid-email') {
         throw 'The email address is invalid.';
+      } else if (e.code == 'too-many-requests') {
+        throw 'Too many requests. Please try again later.';
       } else {
         throw e.message ?? 'Failed to send reset email.';
       }
@@ -132,6 +146,11 @@ class FirebaseServices {
       rethrow;
     }
   }
+
+  static Future<void> forgetPassword(String email) =>
+      resetPassword(email: email);
+  static Future<void> ForgetPassword(String email) =>
+      resetPassword(email: email);
 
   static final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 

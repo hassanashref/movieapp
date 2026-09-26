@@ -12,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedNav = 0;
   int selectedMovieIndex = 0;
   late final PageController _pageController;
 
@@ -321,42 +320,7 @@ class _HomePageState extends State<HomePage> {
                                   },
                                 ),
                         ),
-                        SizedBox(height: 16 * s),
-                        // Bottom Navigation Bar
-                        Container(
-                          height: 62 * s,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff242626),
-                            borderRadius: BorderRadius.circular(12 * s),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              _navItem(
-                                icon: Icons.home_rounded,
-                                index: 0,
-                                scale: s,
-                              ),
-                              _navItem(
-                                icon: Icons.search_rounded,
-                                index: 1,
-                                scale: s,
-                              ),
-                              _navItem(
-                                icon: Icons.movie_outlined,
-                                index: 2,
-                                scale: s,
-                              ),
-                              _navItem(
-                                icon: Icons.person_outline_rounded,
-                                index: 3,
-                                scale: s,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20 * s),
+                        SizedBox(height: 24 * s),
                       ],
                     ),
                   ),
@@ -520,34 +484,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _navItem({
-    required IconData icon,
-    required int index,
-    required double scale,
-  }) {
-    final active = selectedNav == index;
-
-    return InkWell(
-      onTap: () {
-        setState(() {
-          selectedNav = index;
-        });
-      },
-      borderRadius: BorderRadius.circular(30 * scale),
-      child: SizedBox(
-        width: 45 * scale,
-        height: 45 * scale,
-        child: Center(
-          child: Icon(
-            icon,
-            size: 21 * scale,
-            color: active ? const Color(0xffffd400) : Colors.white,
-          ),
         ),
       ),
     );

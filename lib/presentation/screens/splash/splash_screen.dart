@@ -22,12 +22,14 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () {
       if (!mounted) return;
 
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-      } else {
-        Navigator.of(context).pushReplacementNamed(OnboardingScreen.routeName);
-      }
+      // final user = FirebaseAuth.instance.currentUser;
+      // if (user != null) {
+      //   Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+      // } else {
+      //   Navigator.of(context).pushReplacementNamed(OnboardingScreen.routeName);
+      // }
+
+      Navigator.of(context).pushReplacementNamed(OnboardingScreen.routeName);
     });
   }
 

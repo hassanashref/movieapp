@@ -24,7 +24,7 @@ class Toast {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),
           side: BorderSide(
-            color: type == ToastType.success ? AppColors.background : Colors.redAccent,
+            color: type == ToastType.success ? AppColors.primary : Colors.redAccent,
             width: 1.2,
           ),
         ),
@@ -34,7 +34,7 @@ class Toast {
               type == ToastType.success
                   ? Icons.check_circle_rounded
                   : Icons.error_outline_rounded,
-              color: type == ToastType.success ? AppColors.primary: Colors.redAccent,
+              color: type == ToastType.success ? AppColors.primary : Colors.redAccent,
               size: 24.sp,
             ),
             SizedBox(width: 12.w),
@@ -42,7 +42,7 @@ class Toast {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: Colors.yellow,
+                  color: Colors.white,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                 ),
