@@ -10,6 +10,7 @@ import 'package:movieapp/presentation/screens/splash/splash_screen.dart';
 
 class AppRoute {
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
+
     ;
     switch (setting.name) {
       case AppRouteName.loginScreen:
