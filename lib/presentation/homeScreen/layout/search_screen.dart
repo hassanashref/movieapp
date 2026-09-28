@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/core/theme/app_colors.dart';
 import 'package:movieapp/presentation/Widgets/movie_widget.dart';
 import 'package:movieapp/presentation/search/search_provider.dart';
+import 'package:movieapp/presentation/screens/movie_details_screen.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -212,7 +213,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       itemBuilder: (context, index) {
                         final movie = provider.searchResults[index];
-                        return MovieWidget(movie: movie);
+                        return MovieWidget(
+                          movie: movie,
+                          onTap: () {
+                            print('Movie tapped: ${movie.id}');
+                          },
+                        );
                       },
                     );
                   },

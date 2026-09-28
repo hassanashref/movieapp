@@ -1,44 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/presentation/api_manager/movie_respons.dart';
+import 'package:movieapp/presentation/screens/movie_details_screen.dart';
 
 class MovieWidget extends StatelessWidget {
   final Movies movie;
   final VoidCallback? onTap;
 
-  const MovieWidget({
-    super.key,
-    required this.movie,
-    this.onTap,
-  });
+  const MovieWidget({super.key, required this.movie, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final posterUrl = movie.largeCoverImage ?? movie.mediumCoverImage ?? '';
+
     final rating = (movie.rating ?? 0.0).toDouble();
 
     return GestureDetector(
-      onTap: onTap,
+      onTap:
+          onTap ??
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MovieDetailsScreen(movie: movie),
+              ),
+            );
+          },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Movie Poster Image
             Image.network(
               posterUrl,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                color: const Color(0xff242626),
-                child: const Center(
-                  child: Icon(
-                    Icons.movie_creation_outlined,
-                    color: Colors.white38,
-                    size: 40,
+              errorBuilder: (_, __, ___) {
+                return Container(
+                  color: const Color(0xff242626),
+                  child: const Center(
+                    child: Icon(
+                      Icons.movie_creation_outlined,
+                      color: Colors.white38,
+                      size: 40,
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
               loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
+                if (loadingProgress == null) {
+                  return child;
+                }
+
                 return Container(
                   color: const Color(0xff242626),
                   child: const Center(
@@ -50,8 +61,6 @@ class MovieWidget extends StatelessWidget {
                 );
               },
             ),
-
-            // Rating Badge at Top-Left
             Positioned(
               top: 10,
               left: 10,
@@ -60,10 +69,6 @@ class MovieWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: const Color(0xff121312).withValues(alpha: 0.78),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    width: 0.5,
-                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

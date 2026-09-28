@@ -13,9 +13,11 @@ class SuggestionModel {
 
   factory SuggestionModel.fromJson(Map<String, dynamic> json) {
     return SuggestionModel(
-      id: json['id'].toString(),
+      id: json['id']?.toString() ?? '',
       title: json['title'] ?? '',
-      poster: json['poster'] ?? '',
+      poster: json['large_cover_image'] ??
+          json['medium_cover_image'] ??
+          '',
       rating: (json['rating'] ?? 0).toDouble(),
     );
   }
