@@ -1,24 +1,55 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:movieapp/presentation/onboarding/onboarding_screen.dart';
-import 'presentation/screens/splash/splash_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:movieapp/presentation/homeScreen/home_provider.dart';
+
+import 'core/routes/app_route.dart';
+import 'core/services_dio/network_service.dart';
+import 'firebase_options.dart';
+
+import 'package:movieapp/presentation/search/search_provider.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  NetworkService.init();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(const MovieAuthApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MovieAuthApp extends StatelessWidget {
+  const MovieAuthApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Route',
-      theme: ThemeData.dark(),
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (_) => const SplashScreen(),
-        OnboardingScreen.routeName: (_) => const OnboardingScreen(),
+    return ScreenUtilInit(
+      designSize: const Size(430, 932),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => HomeProvider()..getHomeMovies(),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => SearchProvider(),
+            ),
+          ],
+          child: MaterialApp(
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            onGenerateRoute: AppRoute.onGenerateRoute,
+          ),
+        );
       },
     );
   }

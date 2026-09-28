@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/routes/app_route_name.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../utils/responsive.dart';
 import 'widgets/onboarding_page.dart';
 import 'onboarding_data.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  static const String routeName = '/onboarding';
+  static const String routeName = '/OnboardingScreen';
 
   const OnboardingScreen({super.key});
 
@@ -39,10 +40,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _finish() {
-    // TODO: Navigator.pushReplacementNamed(LoginScreen.routeName)
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Onboarding finished!')),
-    );
+  Navigator.restorablePushReplacementNamed(context,  AppRouteName.loginScreen);
+
   }
 
   Widget _buildButtons(Responsive r) {
